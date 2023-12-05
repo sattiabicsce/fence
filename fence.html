@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian Fencing Solutions</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="fixed-header">
+        <header>
+            <div class="top-header">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo.PNG" height="100px" width="350px" alt="Your Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                    <li><a href="customize.html">OUR FENCING</a></li>
+                    <li><a href="reviews.html">REVIEWS</a></li>
+                    <li><a href="login.html">LOGIN</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+<body>
+    <header>
+        <h1>Your Fences</h1>
+        <div id="data-status" class="hidden"></div>
+    </header>
+
+    <section class="flex-container">
+        <section id="main-content">
+            <a href="#" id="add-link">+ Add Your Fence</a>
+            <section id="car-list" class="flex-container"></section>
+            <section id="hide-details" class="hidden">
+                <section id="car-details" class="flex-container">
+                    <h2>Details</h2>
+                    <div id="car-details"></div>
+                </section>
+            </section>
+        </section>
+        <section id="add-car" class="dialog transparent">
+            <span class="close">&times;</span>
+            <h3 id="add-edit"></h3>
+            <form id="car-form" method="post">
+                <input type="hidden" id="_id" name="_id"> <!-- value="-1" -->
+                <p>
+                    <label for="make">Company:</label>
+                    <input type="text" id="make" name="make" required />
+                </p>
+                <p>
+                    <label for="model">Type:</label>
+                    <input type="text" id="model" name="model" required />
+                </p>
+                <p>
+                    <label for="year">Year Installed:</label>
+                    <input type="number" id="year" name="year" required />
+                </p>
+                <p>
+                    <label for="type">City, State:</label>
+                    <input type="text" id="type" name="type" required />
+                </p>
+                <p id="features-p">
+                    <label class="inline">Material(s):</label>
+                    <a href="#" id="add-feature">Add Material</a>
+                    <section id="feature-boxes"></section>
+                </p>
+                <p>
+                    <label for="img">Upload Image:</label>
+                    <input type="file" id="img" name="img" />
+                </p>
+                <p>
+                    <button type="submit">Submit</button>
+                </p>
+            </form>
+        </section>
+    </section>
+    <footer>
+        <div class="footer-logo">
+            <a href="index.html">
+                <img src="images/logo.PNG" height="100px" width="350px" alt="Your Logo">
+            </a>
+        </div>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h3>&copy; 2023 Abi Satti</h3>
+            </div>
+        </div>    
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h3><a href="contact.html">CONTACT</a></h3>
+            </div>
+        </div>
+
+    </footer>
+</body>
+</html>
