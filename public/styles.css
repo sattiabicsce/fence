@@ -502,7 +502,7 @@ h1 {
     width: 500px;
 }
 
-#car-details {
+#fence-details {
     position: absolute;
     top: 80%;
     left: 50%;
@@ -533,7 +533,7 @@ h1 {
     margin: 0 auto;
 }
 
-#add-car {
+#add-fence {
     padding: 10px;
     margin: 10px;
     border: 3px solid black;
@@ -546,13 +546,13 @@ h1 {
     align-items: center;
 }
 
-#car-list {
+#fence-list {
     width: 100%;
     display: flex;
     justify-content: right;
 }
 
-.car-model {
+.fence-model {
     padding: 10px;
     margin: 10px;
     background: bisque;
@@ -609,21 +609,21 @@ a {
     opacity: 0;
 }
 
-.car-model {
+.fence-model {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.car-model img {
+.fence-model img {
     width: 80%;
     height: auto;
 }
 
 /* Larger Resolutions */
 @media (min-width: 600px) {
-    #add-car {
+    #add-fence {
         max-width: 30%;
         margin: auto;
     }
@@ -636,7 +636,7 @@ a {
         flex-wrap: wrap;
     }
 
-    .car-model {
+    .fence-model {
         width: 25%;
     }
 }

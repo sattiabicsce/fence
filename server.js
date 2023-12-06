@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/fence.html");
 });
 
-const carSchema = new mongoose.Schema({
+const fenceSchema = new mongoose.Schema({
     make: String,
     model: String,
     year: Number,
@@ -31,20 +31,20 @@ const carSchema = new mongoose.Schema({
     _id: Number
 });
 
-const Car = mongoose.model("Car", carSchema);
+const Fence = mongoose.model("Fence", fenceSchema);
 
-app.get("/api/cars", (req, res) => {
-    getCars(res);
+app.get("/api/fences", (req, res) => {
+    getFences(res);
 });
   
-const getCars = async (res) => {
-    const cars = await Car.find();
-    res.send(cars);
+const getFences = async (res) => {
+    const fences = await Fence.find();
+    res.send(fences);
 };
 
-app.post("/api/cars", upload.single("img"), async (req, res) => {
+app.post("/api/fences", upload.single("img"), async (req, res) => {
     console.log(req.body);
-    const result = validateCar(req.body);
+    const result = validateFence(req.body);
 
     if (result.error) {
         res.status(400).send(result.error.details[0].message);
@@ -52,17 +52,17 @@ app.post("/api/cars", upload.single("img"), async (req, res) => {
     }
 
     // Hack to find new ID\
-    const cars = await Car.find();
-    console.log(cars);
+    const fences = await Fence.find();
+    console.log(fences);
     let maxID = 0;
-    for (x = 0; x < cars.length; x++) {
-        if (cars[x]._id > maxID) {
-            maxID = cars[x]._id;
+    for (x = 0; x < fences.length; x++) {
+        if (fences[x]._id > maxID) {
+            maxID = fences[x]._id;
         }
     }
     maxID++;
 
-    const car = new Car({
+    const fence = new Fence({
         _id: maxID,  
         make: req.body.make,
         model: req.body.model,
@@ -72,28 +72,28 @@ app.post("/api/cars", upload.single("img"), async (req, res) => {
     });
 
     if (req.file) {
-        car.img = "images/" + req.file.filename;
+        fence.img = "images/" + req.file.filename;
     }
 
-    createCar(car, res);
+    createFence(fence, res);
 });
 
-const createCar = async (car, res) => {
-    const result = await car.save();
-    res.send(car);
+const createFence = async (fence, res) => {
+    const result = await fence.save();
+    res.send(fence);
 };
 
-app.put("/api/cars/:id", upload.single("img"), (req, res) => {
-    const result = validateCar(req.body);
+app.put("/api/fences/:id", upload.single("img"), (req, res) => {
+    const result = validateFence(req.body);
     
     if (result.error) {
         res.status(400).send(result.error.details[0].message);
         return;
     }
-    updateCar(req, res);
+    updateFence(req, res);
 });        
 
-const updateCar = async (req, res) => {
+const updateFence = async (req, res) => {
     let fieldsToUpdate = {
         make: req.body.make,
         model: req.body.model,
@@ -106,21 +106,21 @@ const updateCar = async (req, res) => {
         fieldsToUpdate.img = "images/" + req.file.filename;
     }
 
-    const result = await Car.updateOne({ _id: req.params.id }, fieldsToUpdate);
-    const car = await Car.findById(req.params.id);
-    res.send(car);
+    const result = await Fence.updateOne({ _id: req.params.id }, fieldsToUpdate);
+    const fence = await Fence.findById(req.params.id);
+    res.send(fence);
 };
 
-app.delete("/api/cars/:id", upload.single("img"), (req, res) => {
-    removeCar(res, req.params.id);
+app.delete("/api/fences/:id", upload.single("img"), (req, res) => {
+    removeFence(res, req.params.id);
 });
 
-const removeCar = async (res, id) => {
-    const car = await Car.findByIdAndDelete(id);
-    res.send(car);
+const removeFence = async (res, id) => {
+    const fence = await Fence.findByIdAndDelete(id);
+    res.send(fence);
   };
 
-const validateCar = (car) => {
+const validateFence = (fence) => {
     const schema = Joi.object({
         _id: Joi.allow(""),
         make: Joi.string().required(),
@@ -130,7 +130,7 @@ const validateCar = (car) => {
         features: Joi.allow(""),
     });
 
-    return schema.validate(car);
+    return schema.validate(fence);
 };
 
 app.listen(3000, () => {

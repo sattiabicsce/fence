@@ -1,39 +1,39 @@
-const getCars = async () => {
+const getFences = async () => {
     try {
-        return (await fetch("/api/cars")).json();
+        return (await fetch("/api/fences")).json();
     } catch (error) {
         console.error(error);
     }
 }
 
-const showCars = async () => {
-    let cars = await getCars();
-    let carsDiv = document.getElementById("car-list");
-    carsDiv.classList.add("flex-container");
-    carsDiv.classList.add("wrap");
-    carsDiv.innerHTML = "";
+const showFences = async () => {
+    let fences = await getFences();
+    let fencesDiv = document.getElementById("fence-list");
+    fencesDiv.classList.add("flex-container");
+    fencesDiv.classList.add("wrap");
+    fencesDiv.innerHTML = "";
 
-    cars.forEach((car) => {
+    fences.forEach((fence) => {
         const section = document.createElement("section");
-        section.classList.add("car-model");
-        carsDiv.append(section);
+        section.classList.add("fence-model");
+        fencesDiv.append(section);
 
         const a = document.createElement("a");
         a.href = "#";
         section.append(a);
 
         const h3 = document.createElement("h3");
-        h3.innerHTML = car.make + " " + car.model;
+        h3.innerHTML = fence.make + " " + fence.model;
         a.append(h3);
 
         const img = document.createElement("img");
-        img.src = car.img;
+        img.src = fence.img;
         section.append(img);
 
         a.onclick = (e) => {
             e.preventDefault();
             document.getElementById("hide-details").classList.remove("hidden");
-            displayDetails(car);
+            displayDetails(fence);
         };
 
         const editButton = document.createElement("button");
@@ -44,7 +44,7 @@ const showCars = async () => {
             e.preventDefault();
             document.querySelector(".dialog").classList.remove("transparent");
             document.getElementById("add-edit").innerHTML = "Edit Fence Details";
-            populateEditForm(car);
+            populateEditForm(fence);
         };
 
         const deleteButton = document.createElement("button");
@@ -53,39 +53,39 @@ const showCars = async () => {
 
         deleteButton.onclick = async (e) => {
             e.preventDefault();
-            const confirmation = window.confirm("Are you sure you want to delete this car?");
+            const confirmation = window.confirm("Are you sure you want to delete this fence?");
             if (confirmation) {
-                await deleteCar(car);
+                await deleteFence(fence);
             }
         };
     });
 };
 
-const displayDetails = (car) => {
-    const carDetails = document.getElementById("car-details");
-    carDetails.innerHTML = "";
-    carDetails.classList.add("flex-container");
+const displayDetails = (fence) => {
+    const fenceDetails = document.getElementById("fence-details");
+    fenceDetails.innerHTML = "";
+    fenceDetails.classList.add("flex-container");
 
     const h3 = document.createElement("h3");
-    h3.innerHTML = car.make + " " + car.model;
-    carDetails.append(h3);
+    h3.innerHTML = fence.make + " " + fence.model;
+    fenceDetails.append(h3);
     h3.classList.add("pad-this");
 
     const p1 = document.createElement("p");
-    carDetails.append(p1);
-    p1.innerHTML = 'Year: ' + car.year;
+    fenceDetails.append(p1);
+    p1.innerHTML = 'Year: ' + fence.year;
     p1.classList.add("pad-this");
 
     const p2 = document.createElement("p");
-    carDetails.append(p2);
-    p2.innerHTML = 'Type: ' + car.type;
+    fenceDetails.append(p2);
+    p2.innerHTML = 'Type: ' + fence.type;
     p2.classList.add("pad-this");
 
     const ul = document.createElement("ul");
-    carDetails.append(ul);
+    fenceDetails.append(ul);
     ul.classList.add("pad-this");
 
-    car.features.forEach((feature) => {
+    fence.features.forEach((feature) => {
         const li = document.createElement("li");
         ul.append(li);
         li.innerHTML = feature;
@@ -93,7 +93,7 @@ const displayDetails = (car) => {
 
     const editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
-    carDetails.append(editButton);
+    fenceDetails.append(editButton);
 
     editButton.onclick = (e) => {
         e.preventDefault();
@@ -101,11 +101,11 @@ const displayDetails = (car) => {
         document.getElementById("add-edit").innerHTML = "Edit Fence Details";
     };
 
-    populateEditForm(car);
+    populateEditForm(fence);
 };
 
-const deleteCar = async (car) => {
-    let response = await fetch(`/api/cars/${car._id}`, {
+const deleteFence = async (fence) => {
+    let response = await fetch(`/api/fences/${fence._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -118,23 +118,23 @@ const deleteCar = async (car) => {
       }
     
       let result = await response.json();
-      showCars();
-      document.getElementById("car-details").innerHTML = "";
+      showFences();
+      document.getElementById("fence-details").innerHTML = "";
       resetForm();
 };
 
-const populateEditForm = (car) => {
-    const form = document.getElementById("car-form");
-    console.log(car._id);
-    form._id.value = car._id;
-    form.make.value = car.make;
-    form.model.value = car.model;
-    form.year.value = car.year;
-    form.type.value = car.type;
+const populateEditForm = (fence) => {
+    const form = document.getElementById("fence-form");
+    console.log(fence._id);
+    form._id.value = fence._id;
+    form.make.value = fence.make;
+    form.model.value = fence.model;
+    form.year.value = fence.year;
+    form.type.value = fence.type;
 
     document.getElementById("feature-boxes").innerHTML = "";
 
-    car.features.forEach((feature) => {
+    fence.features.forEach((feature) => {
         const input = document.createElement("input");
         input.type = "text";
         input.value = feature;
@@ -142,9 +142,9 @@ const populateEditForm = (car) => {
     });
 };
 
-const addEditCar = async (e) => {
+const addEditFence = async (e) => {
     e.preventDefault();
-    const form = document.getElementById("car-form");
+    const form = document.getElementById("fence-form");
     const formData = new FormData(form);
     const dataStatus = document.getElementById("data-status");
     let response;
@@ -153,14 +153,14 @@ const addEditCar = async (e) => {
     if (form._id.value == -1) {
         formData.delete("_id");
         console.log(formData);
-        response = await fetch("/api/cars", {
+        response = await fetch("/api/fences", {
             method: "POST",
             body: formData
         });
     } else {
         console.log(...formData);
 
-        response = await fetch(`/api/cars/${form._id.value}`, {
+        response = await fetch(`/api/fences/${form._id.value}`, {
             method: "PUT",
             body: formData
         });
@@ -177,15 +177,15 @@ const addEditCar = async (e) => {
         return;
     }
 
-    car = await response.json();
+    fence = await response.json();
 
     if (form._id.value != -1) {
-        displayDetails(car);
+        displayDetails(fence);
       }
 
     resetForm();
     document.querySelector(".dialog").classList.add("transparent");
-    showCars();
+    showFences();
 };
 
 const getFeatures = () => {
@@ -200,7 +200,7 @@ const getFeatures = () => {
 }
 
 const resetForm = () => {
-    const form = document.getElementById("car-form");
+    const form = document.getElementById("fence-form");
     form.reset();
     form._id.value = "-1";
     document.getElementById("feature-boxes").innerHTML = "";
@@ -222,8 +222,8 @@ const addFeature = (e) => {
 }
 
 window.onload = () => {
-    showCars();
-    document.getElementById("car-form").onsubmit = addEditCar;
+    showFences();
+    document.getElementById("fence-form").onsubmit = addEditFence;
     document.getElementById("add-link").onclick = showHideAdd;
 
     document.querySelector(".close").onclick = () => {
