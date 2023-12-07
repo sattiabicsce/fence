@@ -15,7 +15,7 @@ mongoose
     "mongodb+srv://abisatti18:myuofsc3@cluster1.5hvwyyk.mongodb.net/"
   )
   .then(() => console.log("Connected to mongodb..."))
-  .catch((err) => console.error("could not connect ot mongodb...", err));
+  .catch((err) => console.error("could not connect to mongodb...", err));
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/fence.html");
